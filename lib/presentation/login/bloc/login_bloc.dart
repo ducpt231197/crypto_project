@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:crypto_project_demo10_database/repositories/user_repository.dart';
+import 'package:crypto_project_demo11_linechart/repositories/user_repository.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -16,7 +16,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         super(LoginInitial());
 
   @override
-  Stream<LoginState> mapEventToState(LoginEvent loginEvent) async* {
+  Stream<LoginState> mapEventToState(LoginEvent event) async* {
     String? emptyEmail;
     String? emptyPass;
     String? invalidEmail;
@@ -26,25 +26,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     bool isEmailInvalid = false;
     bool isPassInvalid = false;
     bool isValid = true;
-    if (loginEvent is EventPressLogin) {
-      if (loginEvent.email.isEmpty) {
+    if (event is EventPressLogin) {
+      if (event.email.isEmpty) {
         emptyEmail = 'Please enter your email';
         isValid = false;
         isEmptyEmail = true;
         isEmailInvalid = true;
       } else if (!RegExp(
               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-          .hasMatch(loginEvent.email)) {
+          .hasMatch(event.email)) {
         invalidEmail = 'Email is invalid';
         isValid = false;
         isEmailInvalid = true;
       }
-      if (loginEvent.pass.isEmpty) {
+      if (event.pass.isEmpty) {
         emptyPass = 'Please enter your password';
         isValid = false;
         isEmptyPass = true;
         isPassInvalid = true;
-      } else if (loginEvent.pass.length < 6) {
+      } else if (event.pass.length < 6) {
         invalidPass = 'Password is invalid';
         isValid = false;
         isPassInvalid = true;
@@ -52,7 +52,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (isValid) {
         try {
           yield LoggingInState();
-          await _userRepository.signIn(loginEvent.email, loginEvent.pass);
+          await _userRepository.signIn(event.email, event.pass);
           yield LoginSuccessState();
         } catch (e) {
           yield LoginFailureState();

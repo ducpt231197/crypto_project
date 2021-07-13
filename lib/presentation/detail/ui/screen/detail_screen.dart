@@ -1,9 +1,9 @@
-import 'package:crypto_project_demo10_database/data/api/coin_api.dart';
-import 'package:crypto_project_demo10_database/data/repositories/coin_responsitories.dart';
-import 'package:crypto_project_demo10_database/domain/coin_Usecase/usecase/coin_usecase.dart';
-import 'package:crypto_project_demo10_database/presentation/detail/bloc/detail_bloc.dart';
-import 'package:crypto_project_demo10_database/presentation/detail/ui/items/detail_item.dart';
-import 'package:crypto_project_demo10_database/presentation/home/bloc/coin_bloc.dart';
+import 'package:crypto_project_demo11_linechart/data/api/coin_api.dart';
+import 'package:crypto_project_demo11_linechart/data/repositories/coin_responsitories.dart';
+import 'package:crypto_project_demo11_linechart/domain/coin_Usecase/usecase/coin_usecase.dart';
+import 'package:crypto_project_demo11_linechart/presentation/detail/bloc/detail_bloc.dart';
+import 'package:crypto_project_demo11_linechart/presentation/detail/ui/items/detail_item.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/bloc/coin_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,8 +64,19 @@ class DetailScreen extends StatelessWidget {
                     providers: [
                       BlocProvider(
                         create: (context) => DetailBloc(
-                            CoinUsecase(CoinRespositoryImpl(CoinAPI(Dio()))))
-                          ..add(LoadDetailEvent(id!)),
+                          CoinUsecase(
+                            CoinRespositoryImpl(
+                              CoinAPI(
+                                Dio(
+                                  BaseOptions(
+                                    connectTimeout: 5000,
+                                    // receiveTimeout: 10000
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )..add(LoadDetailEvent(id!)),
                       ),
                       BlocProvider(create: (context) => CoinBloc())
                     ],

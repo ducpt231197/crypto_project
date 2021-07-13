@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:crypto_project_demo10_database/data/model/coin_response.dart';
-import 'package:crypto_project_demo10_database/data/utils/database.dart';
-import 'package:crypto_project_demo10_database/domain/coin_Usecase/entities/coin_entity.dart';
-import 'package:crypto_project_demo10_database/domain/coin_Usecase/usecase/coin_usecase.dart';
+import 'package:crypto_project_demo11_linechart/data/model/coin_response.dart';
+import 'package:crypto_project_demo11_linechart/data/utils/database.dart';
+import 'package:crypto_project_demo11_linechart/domain/coin_Usecase/entities/coin_entity.dart';
+import 'package:crypto_project_demo11_linechart/domain/coin_Usecase/usecase/coin_usecase.dart';
 import 'package:meta/meta.dart';
 
 part 'favorite_event.dart';
@@ -20,6 +20,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   @override
   Stream<FavoriteState> mapEventToState(FavoriteEvent event) async* {
     if (event is FavoriteLoadingSuccessEvent) {
+      listFinal.clear();
       yield FavoriteLoadingState();
       FavoriteDatabase db = FavoriteDatabase();
       await db.openDB();

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:crypto_project_demo10_database/data/model/coin_response.dart';
-import 'package:crypto_project_demo10_database/domain/coin_Usecase/usecase/coin_usecase.dart';
+import 'package:crypto_project_demo11_linechart/data/model/coin_response.dart';
+import 'package:crypto_project_demo11_linechart/domain/coin_Usecase/usecase/coin_usecase.dart';
 import 'package:meta/meta.dart';
 
 

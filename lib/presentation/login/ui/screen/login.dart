@@ -1,6 +1,6 @@
-import 'package:crypto_project_demo10_database/repositories/user_repository.dart';
+import 'package:crypto_project_demo11_linechart/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto_project_demo10_database/presentation/login/ui/items/loginCard.dart';
+import 'package:crypto_project_demo11_linechart/presentation/login/ui/items/login_card.dart';
 
 class Login extends StatelessWidget {
   final UserRepository _userRepository;
@@ -16,10 +16,10 @@ class Login extends StatelessWidget {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
             image: AssetImage('images/bg.png'),
             fit: BoxFit.cover,
@@ -31,7 +31,7 @@ class Login extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Radity',
                         style: TextStyle(
                           fontSize: 50,
@@ -39,7 +39,7 @@ class Login extends StatelessWidget {
                           fontFamily: 'VNARIALB',
                         ),
                       ),
-                      Text(
+                      const Text(
                         'Finance',
                         style: TextStyle(
                           fontSize: 20,

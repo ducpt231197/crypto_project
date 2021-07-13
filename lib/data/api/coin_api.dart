@@ -1,4 +1,5 @@
-import 'package:crypto_project_demo10_database/data/model/coin_response.dart';
+import 'package:crypto_project_demo11_linechart/data/model/coin_response.dart';
+import 'package:crypto_project_demo11_linechart/data/model/history.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
 
@@ -15,10 +16,18 @@ abstract class CoinAPI {
     @Query("per-page") String perPage,
     @Query("page") String page,
   );
+
   @GET("/currencies/ticker")
   Future<List<Coin>> getCoin(
     @Query("key") String key,
     @Query("interval") String interval,
     @Query("ids") String ids,
+  );
+
+  @GET("/currencies/sparkline")
+  Future<List<History>> getHistory(
+    @Query("key") String key,
+    @Query("ids") String ids,
+    @Query("start") String start,
   );
 }

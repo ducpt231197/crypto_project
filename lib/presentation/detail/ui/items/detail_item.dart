@@ -1,8 +1,9 @@
-import 'package:crypto_project_demo10_database/presentation/detail/bloc/detail_bloc.dart';
-import 'package:crypto_project_demo10_database/presentation/detail/ui/items/raised_gradient_button.dart';
-import 'package:crypto_project_demo10_database/presentation/detail/ui/items/status_item.dart';
-import 'package:crypto_project_demo10_database/presentation/home/bloc/coin_bloc.dart';
+import 'package:crypto_project_demo11_linechart/presentation/detail/bloc/detail_bloc.dart';
+import 'package:crypto_project_demo11_linechart/presentation/detail/ui/items/raised_gradient_button.dart';
+import 'package:crypto_project_demo11_linechart/presentation/detail/ui/items/status_item.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/bloc/coin_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,6 +17,13 @@ class DetailItem extends StatefulWidget {
 }
 
 class _DetailItemState extends State<DetailItem> {
+  DateTime toDay = DateTime.now();
+
+  List<Color> gradientColors = [
+    const Color(0xff23b6e6),
+    const Color(0xff02d39a),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<CoinBloc, CoinState>(
@@ -123,13 +131,18 @@ class _DetailItemState extends State<DetailItem> {
                       )
                     ],
                   ),
-                  Divider(
-                    height: 15,
-                    color: Colors.grey[300],
-                    thickness: 1,
-                  ),
-                  const Placeholder(
-                    fallbackHeight: 300,
+                  const SizedBox(height: 15),
+                  Container(
+                    padding: const EdgeInsets.only(right: 20),
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: LineChart(
+                      mainData(
+                        maxY: state.maxY,
+                        minY: state.minY,
+                        price: state.history.elementAt(0).prices,
+                        time: state.history.elementAt(0).timestamps,
+                      ),
+                    ),
                   ),
                   Divider(
                     height: 15,
@@ -165,13 +178,13 @@ class _DetailItemState extends State<DetailItem> {
                   StatusItem(
                       title: 'Market Cap',
                       price: state.coin.elementAt(0).marketCap.toString()),
-                  StatusItem(
-                      title: '1 Hours Change',
-                      price: state.coin
-                          .elementAt(0)
-                          .the1H!
-                          .priceChange
-                          .toString()),
+                  // StatusItem(
+                  //     title: '1 Hours Change',
+                  //     price: state.coin
+                  //         .elementAt(0)
+                  //         .the1H!
+                  //         .priceChange
+                  //         .toString()),
                   StatusItem(
                       title: '1 Day Change',
                       price: state.coin
@@ -179,13 +192,13 @@ class _DetailItemState extends State<DetailItem> {
                           .the1D!
                           .priceChange
                           .toString()),
-                  StatusItem(
-                      title: '7 Days Change',
-                      price: state.coin
-                          .elementAt(0)
-                          .the7D!
-                          .priceChange
-                          .toString()),
+                  // StatusItem(
+                  //     title: '7 Days Change',
+                  //     price: state.coin
+                  //         .elementAt(0)
+                  //         .the7D!
+                  //         .priceChange
+                  //         .toString()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -227,26 +240,123 @@ class _DetailItemState extends State<DetailItem> {
               ),
             );
           } else if (state is LoadingDetailState) {
-            return const Expanded(
-              child: SpinKitWave(
-                  color: Color(0xff070f51), type: SpinKitWaveType.start),
+            return const SpinKitWave(
+                color: Color(0xff070f51), type: SpinKitWaveType.start);
+          } else if (state is LoadDetailFailureState) {
+            return const Center(
+              child: Text('Failure STATE'),
             );
           }
-          return Container(
-            padding: EdgeInsets.only(
-                top: (MediaQuery.of(context).size.height - 300) / 5),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('images/bg.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: const Center(
-              child: Text('OUT OF STATE'),
-            ),
+          return const Center(
+            child: Text('OUT OF STATE'),
           );
         },
       ),
+    );
+  }
+
+  LineChartData mainData({
+    required double? minY,
+    required double? maxY,
+    required List<DateTime>? time,
+    required List<String>? price,
+  }) {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+            color: const Color(0xff37434d),
+            strokeWidth: 1,
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return FlLine(
+            color: const Color(0xff37434d),
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 22,
+          getTextStyles: (value) => const TextStyle(
+              color: Color(0xff68737d),
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 0:
+                return time!.elementAt(0).toString().substring(5, 10);
+              case 10:
+                return time!.elementAt(10).toString().substring(5, 10);
+              case 20:
+                return time!.elementAt(20).toString().substring(5, 10);
+              case 29:
+                return time!.elementAt(29).toString().substring(5, 10);
+            }
+            return '';
+          },
+          margin: 8,
+        ),
+      ),
+      borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: const Color(0xff37434d), width: 1)),
+      minX: 0,
+      maxX: 29,
+      minY: minY,
+      maxY: maxY,
+      lineBarsData: [
+        LineChartBarData(
+          spots: [
+            FlSpot(0, double.parse(price!.elementAt(0))),
+            FlSpot(1, double.parse(price.elementAt(1))),
+            FlSpot(2, double.parse(price.elementAt(2))),
+            FlSpot(3, double.parse(price.elementAt(3))),
+            FlSpot(4, double.parse(price.elementAt(4))),
+            FlSpot(5, double.parse(price.elementAt(5))),
+            FlSpot(6, double.parse(price.elementAt(6))),
+            FlSpot(7, double.parse(price.elementAt(7))),
+            FlSpot(8, double.parse(price.elementAt(8))),
+            FlSpot(9, double.parse(price.elementAt(9))),
+            FlSpot(10, double.parse(price.elementAt(10))),
+            FlSpot(11, double.parse(price.elementAt(11))),
+            FlSpot(12, double.parse(price.elementAt(12))),
+            FlSpot(13, double.parse(price.elementAt(13))),
+            FlSpot(14, double.parse(price.elementAt(14))),
+            FlSpot(15, double.parse(price.elementAt(15))),
+            FlSpot(16, double.parse(price.elementAt(16))),
+            FlSpot(17, double.parse(price.elementAt(17))),
+            FlSpot(18, double.parse(price.elementAt(18))),
+            FlSpot(19, double.parse(price.elementAt(19))),
+            FlSpot(20, double.parse(price.elementAt(20))),
+            FlSpot(21, double.parse(price.elementAt(21))),
+            FlSpot(22, double.parse(price.elementAt(22))),
+            FlSpot(23, double.parse(price.elementAt(23))),
+            FlSpot(24, double.parse(price.elementAt(24))),
+            FlSpot(25, double.parse(price.elementAt(25))),
+            FlSpot(26, double.parse(price.elementAt(26))),
+            FlSpot(27, double.parse(price.elementAt(27))),
+            FlSpot(28, double.parse(price.elementAt(28))),
+            FlSpot(29, double.parse(price.elementAt(29))),
+          ],
+          isCurved: false,
+          colors: gradientColors,
+          barWidth: 1,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            colors:
+                gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+          ),
+        ),
+      ],
     );
   }
 }

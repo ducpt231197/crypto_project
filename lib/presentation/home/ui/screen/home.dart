@@ -1,28 +1,26 @@
-import 'package:crypto_project_demo10_database/authentication/authentication_bloc.dart';
-import 'package:crypto_project_demo10_database/data/api/coin_api.dart';
-import 'package:crypto_project_demo10_database/data/repositories/coin_responsitories.dart';
-import 'package:crypto_project_demo10_database/domain/coin_Usecase/usecase/coin_usecase.dart';
-import 'package:crypto_project_demo10_database/presentation/home/bloc/coin_bloc.dart';
-import 'package:crypto_project_demo10_database/presentation/home/bloc/home_bloc.dart';
-import 'package:crypto_project_demo10_database/presentation/home/bloc/search_bloc.dart';
-import 'package:crypto_project_demo10_database/presentation/home/ui/items/left_child_container.dart';
-import 'package:crypto_project_demo10_database/repositories/user_repository.dart';
+import 'package:crypto_project_demo11_linechart/data/api/coin_api.dart';
+import 'package:crypto_project_demo11_linechart/data/repositories/coin_responsitories.dart';
+import 'package:crypto_project_demo11_linechart/domain/coin_Usecase/usecase/coin_usecase.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/bloc/coin_bloc.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/bloc/home_bloc.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/bloc/search_bloc.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/ui/items/left_child_container.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:crypto_project_demo10_database/presentation/home/ui/items/close_panel.dart';
-import 'package:crypto_project_demo10_database/presentation/home/ui/items/open_panel.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/ui/items/close_panel.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/ui/items/open_panel.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool checkOpen = false;
-  final UserRepository _userRepository = UserRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: Drawer(
-        child: BlocProvider(
-          create: (context) =>
-              AuthenticationBloc(userRepository: _userRepository),
-          child: LeftChildContainer(),
-        ),
+      drawer: const Drawer(
+        child: LeftChildContainer(),
       ),
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
         child: BlocProvider(
           create: (context) => HomeBloc(
@@ -112,7 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   collapsed: BlocProvider(
                     create: (context) => CoinBloc(),
-                    child: ClosePanel(homeState.listCoin, false),
+                    child: ClosePanel(
+                        coin: homeState.listCoin, isAscending: false),
                   ),
                   body: Container(
                     padding: EdgeInsets.only(
@@ -133,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 50),
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+                          padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -147,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    Text(
+                                    const Text(
                                       '\$1,567',
                                       style: TextStyle(
                                           fontSize: 25, color: Colors.white),
@@ -158,14 +153,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               Expanded(
                                 child: Column(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'CASH',
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    Text(
+                                    const Text(
                                       '\$876',
                                       style: TextStyle(
                                           fontSize: 25, color: Colors.white),
@@ -176,14 +171,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               Expanded(
                                 child: Column(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'CUSTODY',
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    Text(
+                                    const Text(
                                       '\$5,158',
                                       style: TextStyle(
                                           fontSize: 25, color: Colors.white),

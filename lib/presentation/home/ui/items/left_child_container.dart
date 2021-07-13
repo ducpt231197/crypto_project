@@ -1,18 +1,19 @@
-import 'package:crypto_project_demo10_database/authentication/authentication_bloc.dart';
-import 'package:crypto_project_demo10_database/presentation/favorite/ui/screen/favorite_screen.dart';
-import 'package:crypto_project_demo10_database/repositories/user_repository.dart';
+import 'package:crypto_project_demo11_linechart/authentication/authentication_bloc.dart';
+import 'package:crypto_project_demo11_linechart/presentation/favorite/ui/screen/favorite_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LeftChildContainer extends StatefulWidget {
+  const LeftChildContainer({Key? key}): super(key: key);
   @override
   _LeftChildContainerState createState() => _LeftChildContainerState();
 }
 
 class _LeftChildContainerState extends State<LeftChildContainer> {
   String name = FirebaseAuth.instance.currentUser!.displayName.toString();
-  final UserRepository _userRepository = UserRepository();
+
+  // final UserRepository _userRepository = UserRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +52,17 @@ class _LeftChildContainerState extends State<LeftChildContainer> {
                     Container(width: 20),
                     Text(
                       "$name's profile",
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                      ),
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
                     )
                   ],
                 ),
                 Container(height: 20),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => FavoriteScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FavoriteScreen()));
                   },
                   child: Row(
                     children: [
@@ -79,10 +79,7 @@ class _LeftChildContainerState extends State<LeftChildContainer> {
                       Container(width: 20),
                       const Text(
                         'Favorites',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       )
                     ],
                   ),
@@ -103,10 +100,7 @@ class _LeftChildContainerState extends State<LeftChildContainer> {
                     Container(width: 20),
                     const Text(
                       'Market',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     )
                   ],
                 ),
@@ -126,10 +120,7 @@ class _LeftChildContainerState extends State<LeftChildContainer> {
                     Container(width: 20),
                     const Text(
                       'News',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     )
                   ],
                 ),
@@ -149,10 +140,7 @@ class _LeftChildContainerState extends State<LeftChildContainer> {
                     Container(width: 20),
                     const Text(
                       'Upgrade',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     )
                   ],
                 ),
@@ -178,10 +166,7 @@ class _LeftChildContainerState extends State<LeftChildContainer> {
                     Container(width: 20),
                     const Text(
                       'Setting',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     )
                   ],
                 ),
@@ -201,45 +186,40 @@ class _LeftChildContainerState extends State<LeftChildContainer> {
                     Container(width: 20),
                     const Text(
                       'Private',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     )
                   ],
                 ),
                 Container(height: 20),
                 InkWell(
-                  onTap: () {
-                    showDialog(
+                  onTap: () async {
+                    var a = await showDialog(
                       context: context,
                       barrierDismissible: false,
-                      builder: (context) =>
-                          AlertDialog(
-                            title: const Text('Logout ?'),
-                            content: const Text('Do you want to logout?'),
-                            actions: [
-                              TextButton(
-                                child: const Text('Stay'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: const Text('Logout'),
-                                onPressed: () {
-                                  BlocProvider.of<AuthenticationBloc>(context)
-                                      .add(EventLoggedOut());
-                                },
-                              ),
-                            ],
+                      builder: (context) => AlertDialog(
+                        title: const Text('Logout ?'),
+                        content: const Text('Do you want to logout?'),
+                        actions: [
+                          TextButton(
+                            child: const Text('Stay'),
+                            onPressed: () {
+                              Navigator.pop(context, "stay");
+                            },
                           ),
+                          TextButton(
+                            child: const Text('Logout'),
+                            onPressed: () {
+                              Navigator.pop(context, "logout");
+                            },
+                          ),
+                        ],
+                      ),
                     );
+                    if (a == 'logout') {
+                      BlocProvider.of<AuthenticationBloc>(context)
+                          .add(EventLoggedOut());
+                    }
                   },
-                  // onTap: () {
-                  //   BlocProvider.of<AuthenticationBloc>(context)
-                  //       .add(EventLoggedOut());
-                  // },
                   child: Row(
                     children: [
                       Container(width: 30),
@@ -255,10 +235,7 @@ class _LeftChildContainerState extends State<LeftChildContainer> {
                       Container(width: 20),
                       const Text(
                         'Logout',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       )
                     ],
                   ),

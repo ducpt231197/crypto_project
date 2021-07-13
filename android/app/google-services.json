@@ -36,6 +36,35 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:676014379912:android:e0c1980c489fcd771f603d",
+        "android_client_info": {
+          "package_name": "com.example.crypto_project_demo11_linechart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "676014379912-88nkdbcsdq86hfqu90odalhm7t7p23b7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDns8v9Wjyjw8m0WiTlPu1GJtXELGEbrmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "676014379912-88nkdbcsdq86hfqu90odalhm7t7p23b7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:676014379912:android:2a220d026d852ae91f603d",
         "android_client_info": {
           "package_name": "com.example.crypto_project_demo8_retrofit"

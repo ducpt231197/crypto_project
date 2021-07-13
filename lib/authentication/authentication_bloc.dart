@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:crypto_project_demo10_database/repositories/user_repository.dart';
+import 'package:crypto_project_demo11_linechart/repositories/user_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -17,8 +17,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         super(Initial());
 
   @override
-  Stream<AuthenticationState> mapEventToState(AuthenticationEvent authenEvent) async*{
-    if(authenEvent is EventStarted) {
+  Stream<AuthenticationState> mapEventToState(AuthenticationEvent event) async*{
+    if(event is EventStarted) {
       final isSignedIn = await _userRepository.isSignIn();
       if(isSignedIn) {
         final user = await _userRepository.getUser();
@@ -26,9 +26,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       } else {
         yield Failure();
       }
-    }else if (authenEvent is EventLoggedIn) {
+    }else if (event is EventLoggedIn) {
       yield Success(firebaseUser: await _userRepository.getUser());
-    }else if (authenEvent is EventLoggedOut) {
+    }else if (event is EventLoggedOut) {
       _userRepository.signOut();
       yield Failure();
     }

@@ -1,17 +1,18 @@
-import 'package:crypto_project_demo10_database/data/api/coin_api.dart';
-import 'package:crypto_project_demo10_database/data/repositories/coin_responsitories.dart';
-import 'package:crypto_project_demo10_database/domain/coin_Usecase/usecase/coin_usecase.dart';
-import 'package:crypto_project_demo10_database/presentation/detail/ui/screen/detail_screen.dart';
-import 'package:crypto_project_demo10_database/presentation/favorite/bloc/favorite_bloc.dart';
-import 'package:crypto_project_demo10_database/presentation/home/bloc/coin_bloc.dart';
+import 'package:crypto_project_demo11_linechart/data/api/coin_api.dart';
+import 'package:crypto_project_demo11_linechart/data/repositories/coin_responsitories.dart';
+import 'package:crypto_project_demo11_linechart/domain/coin_Usecase/usecase/coin_usecase.dart';
+import 'package:crypto_project_demo11_linechart/presentation/detail/ui/screen/detail_screen.dart';
+import 'package:crypto_project_demo11_linechart/presentation/favorite/bloc/favorite_bloc.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/bloc/coin_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto_project_demo10_database/presentation/favorite/ui/items/watch_list_item.dart';
+import 'package:crypto_project_demo11_linechart/presentation/favorite/ui/items/watch_list_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class FavoriteScreen extends StatefulWidget {
+  const FavoriteScreen({Key? key}): super(key: key);
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
 }
@@ -30,8 +31,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   CoinAPI(Dio()),
                 ),
               ),
-            )..add(FavoriteLoadingSuccessEvent(
-                FirebaseAuth.instance.currentUser!.email.toString())),
+            )..add(
+                FavoriteLoadingSuccessEvent(
+                  FirebaseAuth.instance.currentUser!.email.toString(),
+                ),
+              ),
           ),
           BlocProvider(
             create: (context) => CoinBloc(),
@@ -124,8 +128,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                   itemCount: state.listCoin.length,
                                   itemBuilder: (context, index) {
                                     return InkWell(
-                                      onLongPress: () {
-                                        showDialog(
+                                      onLongPress: () async {
+                                        var a = await showDialog(
                                           context: context,
                                           barrierDismissible: true,
                                           builder: (context) => AlertDialog(
@@ -164,7 +168,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                   ),
                                                 ),
                                                 onPressed: () {
-                                                  Navigator.of(context).pop();
+                                                  Navigator.pop(
+                                                      context, "cancel");
                                                 },
                                               ),
                                               TextButton(
@@ -175,25 +180,32 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                   ),
                                                 ),
                                                 onPressed: () {
-                                                  BlocProvider.of<CoinBloc>(
-                                                          context)
-                                                      .add(
-                                                    DeleteFavoriteEvent(
-                                                      email: FirebaseAuth
-                                                          .instance
-                                                          .currentUser!
-                                                          .email
-                                                          .toString(),
-                                                      coin: state.listCoin
-                                                          .elementAt(index)
-                                                          .id!,
-                                                    ),
-                                                  );
+                                                  Navigator.pop(
+                                                      context, "remove");
                                                 },
                                               ),
                                             ],
                                           ),
                                         );
+                                        if (a == 'remove') {
+                                          BlocProvider.of<CoinBloc>(context)
+                                              .add(
+                                            DeleteFavoriteEvent(
+                                              email: FirebaseAuth
+                                                  .instance.currentUser!.email
+                                                  .toString(),
+                                              coin: state.listCoin
+                                                  .elementAt(index)
+                                                  .id!,
+                                            ),
+                                          );
+                                          BlocProvider.of<FavoriteBloc>(context)
+                                              .add(
+                                            FavoriteLoadingSuccessEvent(
+                                              FirebaseAuth.instance.currentUser!.email.toString(),
+                                            ),
+                                          );
+                                        }
                                       },
                                       onTap: () {
                                         Navigator.push(

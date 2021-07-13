@@ -11,5 +11,8 @@ class LoadingDetailState extends DetailState {}
 
 class LoadDetailSuccessState extends DetailState {
   final List<Coin> coin;
-  LoadDetailSuccessState(this.coin);
+  final List<History> history;
+  final double? maxY;
+  final double? minY;
+  LoadDetailSuccessState(this.coin, this.history, this.maxY, this.minY);
 }

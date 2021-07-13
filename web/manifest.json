@@ -1,6 +1,6 @@
 {
-    "name": "crypto_project_demo10_database",
-    "short_name": "crypto_project_demo10_database",
+    "name": "crypto_project_demo11_linechart",
+    "short_name": "crypto_project_demo11_linechart",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

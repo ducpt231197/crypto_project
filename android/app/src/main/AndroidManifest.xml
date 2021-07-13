@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.crypto_project_demo10_database">
+    package="com.example.crypto_project_demo11_linechart">
    <application
-        android:label="crypto_project_demo10_database"
+        android:label="crypto_project_demo11_linechart"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

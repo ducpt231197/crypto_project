@@ -8,7 +8,7 @@ class WatchListItem extends StatefulWidget {
       required this.id,
       required this.name,
       required this.price,
-      required this.percent});
+      required this.percent}): super(key: key);
 
   final String? logo;
   final String? id;

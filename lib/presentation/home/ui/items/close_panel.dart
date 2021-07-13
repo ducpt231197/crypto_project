@@ -1,5 +1,5 @@
-import 'package:crypto_project_demo10_database/data/model/coin_response.dart';
-import 'package:crypto_project_demo10_database/presentation/home/bloc/coin_bloc.dart';
+import 'package:crypto_project_demo11_linechart/data/model/coin_response.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/bloc/coin_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +12,7 @@ class ClosePanel extends StatefulWidget {
   late final bool isAscending;
   late final List<Coin> coin;
 
-  ClosePanel(this.coin, this.isAscending);
+  ClosePanel({Key? key, required this.coin, required this.isAscending}): super(key: key);
 
   @override
   _ClosePanelState createState() =>

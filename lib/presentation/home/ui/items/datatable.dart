@@ -1,6 +1,6 @@
-import 'package:crypto_project_demo10_database/data/model/coin_response.dart';
-import 'package:crypto_project_demo10_database/presentation/detail/ui/screen/detail_screen.dart';
-import 'package:crypto_project_demo10_database/presentation/home/bloc/coin_bloc.dart';
+import 'package:crypto_project_demo11_linechart/data/model/coin_response.dart';
+import 'package:crypto_project_demo11_linechart/presentation/detail/ui/screen/detail_screen.dart';
+import 'package:crypto_project_demo11_linechart/presentation/home/bloc/coin_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

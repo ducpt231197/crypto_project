@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:crypto_project_demo10_database/data/model/coin_response.dart';
-import 'package:crypto_project_demo10_database/data/utils/database.dart';
-import 'package:crypto_project_demo10_database/domain/coin_Usecase/entities/coin_entity.dart';
+import 'package:crypto_project_demo11_linechart/data/model/coin_response.dart';
+import 'package:crypto_project_demo11_linechart/data/utils/database.dart';
+import 'package:crypto_project_demo11_linechart/domain/coin_Usecase/entities/coin_entity.dart';
 import 'package:meta/meta.dart';
 
 part 'coin_event.dart';
